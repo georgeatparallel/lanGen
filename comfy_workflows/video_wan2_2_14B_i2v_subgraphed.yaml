@@ -1,0 +1,110 @@
+name: "video_wan2_2_14B_i2v_subgraphed"
+description: |
+  Animate a still image into video using WAN 2.2 I2V 14B FP8 + LightX2V 4-step (720×720, ~5 s @ 16 fps, ~16 GB VRAM).
+  Use when the user wants to bring a still image to life with realistic, physics-accurate motion.
+  Requires a source image (attached or last generated). Do NOT use for text-only video requests.
+  Prompt describes MOTION ONLY — not appearance (the image already defines all visual content).
+output_type: "video"
+output_nodes: ["108"]
+vram_hint: "16GB"
+parameters:
+  image:
+    node: "97"
+    field: "image"
+    type: "string"
+    image_source: true
+    required: true
+    description: "Starting frame image to animate"
+  prompt:
+    node: "130:107"
+    field: "text"
+    type: "string"
+    required: true
+    description: "Describe the motion and action in the scene"
+  negative_prompt:
+    node: "130:125"
+    field: "text"
+    type: "string"
+    required: false
+    default: "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走"
+  width:
+    node: "130:128"
+    field: "width"
+    type: "integer"
+    required: false
+    default: 720
+  height:
+    node: "130:128"
+    field: "height"
+    type: "integer"
+    required: false
+    default: 720
+  num_frames:
+    node: "130:128"
+    field: "length"
+    type: "integer"
+    required: false
+    default: 81
+    description: "Number of frames. 81 ≈ 5 s at 16 fps"
+  seed:
+    node: "130:110"
+    field: "noise_seed"
+    type: "integer"
+    required: false
+    default: 842464629646148
+  fps:
+    node: "130:117"
+    field: "fps"
+    type: "integer"
+    required: false
+    default: 16
+models:
+  - loader_node: "130:105"
+    field: "clip_name"
+    class_type: "CLIPLoader"
+  - loader_node: "130:106"
+    field: "vae_name"
+    class_type: "VAELoader"
+  - loader_node: "130:122"
+    field: "unet_name"
+    class_type: "UNETLoader"
+  - loader_node: "130:123"
+    field: "unet_name"
+    class_type: "UNETLoader"
+  - loader_node: "130:126"
+    field: "lora_name"
+    class_type: "LoraLoaderModelOnly"
+  - loader_node: "130:127"
+    field: "lora_name"
+    class_type: "LoraLoaderModelOnly"
+downloads:
+  - hf_repo: "Comfy-Org/Wan_2.1_ComfyUI_repackaged"
+    hf_path: "split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors"
+    filename: "umt5_xxl_fp8_e4m3fn_scaled.safetensors"
+    dest: "text_encoders"
+    size: "6.74 GB"
+  - hf_repo: "Comfy-Org/Wan_2.2_ComfyUI_Repackaged"
+    hf_path: "split_files/vae/wan_2.1_vae.safetensors"
+    filename: "wan_2.1_vae.safetensors"
+    dest: "vae"
+    size: "~0.4 GB"
+  - hf_repo: "Comfy-Org/Wan_2.2_ComfyUI_Repackaged"
+    hf_path: "split_files/diffusion_models/wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors"
+    filename: "wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors"
+    dest: "diffusion_models"
+    size: "~14 GB"
+  - hf_repo: "Comfy-Org/Wan_2.2_ComfyUI_Repackaged"
+    hf_path: "split_files/diffusion_models/wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors"
+    filename: "wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors"
+    dest: "diffusion_models"
+    size: "~14 GB"
+  - hf_repo: "Comfy-Org/Wan_2.2_ComfyUI_Repackaged"
+    hf_path: "split_files/loras/wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors"
+    filename: "wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors"
+    dest: "loras"
+    size: "~0.3 GB"
+  - hf_repo: "Comfy-Org/Wan_2.2_ComfyUI_Repackaged"
+    hf_path: "split_files/loras/wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors"
+    filename: "wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors"
+    dest: "loras"
+    size: "~0.3 GB"

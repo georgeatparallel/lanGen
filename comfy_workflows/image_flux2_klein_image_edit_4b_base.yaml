@@ -1,0 +1,58 @@
+name: "image_flux2_klein_image_edit"
+description: |
+  Edit an existing image using Flux 2 Klein 4B FP8 with ReferenceLatent conditioning (~16 GB VRAM).
+  Use when the user has an image and wants to modify it: style transfer, colour changes,
+  adding/removing elements, background swap, or any targeted visual transformation.
+  Prompt describes ONLY the change — ReferenceLatent preserves unchanged structure automatically.
+  Source image is read from the user's attachment or the last generated image.
+output_type: "image"
+output_nodes: []
+vram_hint: "16GB"
+disable_comfy_save: true
+parameters:
+  prompt:
+    node: "75:74"
+    field: "text"
+    type: "string"
+    required: true
+    description: "Describe the changes to make to the image"
+  negative_prompt:
+    node: "75:67"
+    field: "text"
+    type: "string"
+    required: false
+    default: ""
+  steps:
+    node: "75:62"
+    field: "steps"
+    type: "integer"
+    required: false
+    default: 20
+    minimum: 5
+    maximum: 50
+  cfg:
+    node: "75:63"
+    field: "cfg"
+    type: "number"
+    required: false
+    default: 5
+    minimum: 1
+    maximum: 20
+    description: "Classifier-free guidance scale"
+  image:
+    node: "76"
+    field: "image"
+    type: "string"
+    image_source: true
+    required: false
+    description: "URL of the image to edit (e.g. /static/generated/abc.jpg). Use a URL visible in the conversation. Leave empty to use the currently attached image."
+models:
+  - loader_node: "75:70"
+    field: "unet_name"
+    class_type: "UNETLoader"
+downloads:
+  - hf_repo: "black-forest-labs/FLUX.2-klein-base-4b-fp8"
+    hf_path: "flux-2-klein-base-4b-fp8.safetensors"
+    filename: "flux-2-klein-base-4b-fp8.safetensors"
+    dest: "diffusion_models"
+    size: "4 GB"

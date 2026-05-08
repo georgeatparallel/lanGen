@@ -1,0 +1,291 @@
+/*
+ * input.css
+ * Input bar container, attachment preview row, the rounded input row,
+ * attach button, textarea, send/stop morphing button, footer info bar,
+ * clear button, and kbd tag styling.
+ */
+
+/* ── Input bar ── */
+#input-bar {
+  padding: 8px 24px calc(16px + env(safe-area-inset-bottom, 0px));
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+/* ── Attachment preview ── */
+#attachment-preview {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  max-width: 768px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 4px;
+  animation: attachIn 0.22s var(--ease-out);
+}
+
+@keyframes attachIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.attach-thumb {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.attach-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-elev-1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--fg);
+  max-width: 280px;
+  overflow: hidden;
+}
+
+.attach-pill svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--accent); stroke-width: 2; }
+.attach-pill span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.005em; }
+
+.attach-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--fg-faint);
+  padding: 5px 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s, background 0.15s;
+  font-size: 14px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.attach-remove:hover { color: var(--error); background: var(--error-bg); }
+
+/* ── Input row ── */
+#input-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  max-width: 768px;
+  margin: 0 auto;
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 8px 8px 8px 6px;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), background 0.2s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+}
+
+#input-row:hover { border-color: var(--border-hi); }
+
+#input-row:focus-within {
+  border-color: oklch(0.74 0.14 50 / 0.40);
+  box-shadow: 0 0 0 4px var(--accent-soft), 0 4px 16px rgba(0,0,0,0.12);
+}
+
+/* ── Attach button ── */
+#attach-btn {
+  background: none;
+  border: none;
+  color: var(--fg-muted);
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  align-self: flex-end;
+}
+
+#attach-btn svg { width: 18px; height: 18px; stroke-width: 2; }
+#attach-btn:hover { color: var(--fg); background: oklch(1 0 0 / 0.06); }
+#attach-btn:active { transform: scale(0.92); }
+
+/* ── Textarea ── */
+textarea#input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--fg);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.55;
+  padding: 7px 6px;
+  resize: none;
+  min-height: 24px;
+  max-height: 220px;
+  overflow-y: hidden;
+  letter-spacing: -0.005em;
+  scrollbar-width: none;
+}
+textarea#input::-webkit-scrollbar { width: 0; height: 0; display: none; }
+/* Scrollbar only when content exceeds max-height */
+textarea#input.is-overflowing {
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+textarea#input.is-overflowing::-webkit-scrollbar { width: 6px; display: block; }
+textarea#input::placeholder { color: var(--fg-faint); }
+
+/* ── Send / Stop morphing button ──
+   Single button that transitions between send and stop states.
+   Both icons are positioned absolutely and cross-faded. */
+#action-btn {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.22s var(--ease), color 0.22s, transform 0.12s, box-shadow 0.22s, opacity 0.2s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  position: relative;
+  background: var(--accent);
+  color: var(--accent-fg);
+  box-shadow: 0 1px 0 oklch(1 0 0 / 0.20) inset, 0 2px 8px var(--accent-glow);
+}
+
+#action-btn:hover:not(:disabled) {
+  background: var(--accent-hi);
+  transform: translateY(-1px);
+  box-shadow: 0 1px 0 oklch(1 0 0 / 0.22) inset, 0 6px 16px var(--accent-glow);
+}
+
+#action-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.94);
+  box-shadow: 0 1px 0 oklch(1 0 0 / 0.20) inset, 0 1px 4px var(--accent-glow);
+}
+
+/* Empty state — desaturated, blocked */
+#action-btn.is-empty {
+  background: oklch(1 0 0 / 0.08);
+  color: var(--fg-faint);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+#action-btn.is-empty:hover {
+  background: oklch(1 0 0 / 0.08);
+  transform: none;
+  box-shadow: none;
+}
+
+/* Stop state */
+#action-btn.is-stop {
+  background: var(--fg);
+  color: var(--bg);
+  box-shadow: 0 1px 0 oklch(1 0 0 / 0.30) inset, 0 2px 8px rgba(0,0,0,0.30);
+}
+
+#action-btn.is-stop:hover {
+  background: oklch(1 0 0 / 0.92);
+  transform: translateY(-1px);
+  box-shadow: 0 1px 0 oklch(1 0 0 / 0.30) inset, 0 4px 12px rgba(0,0,0,0.30);
+}
+
+/* Concentric pulse ring while stopping */
+#action-btn.is-stop::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid var(--fg);
+  opacity: 0;
+  animation: stopPulse 1.6s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes stopPulse {
+  0%   { opacity: 0.45; transform: scale(0.85); }
+  100% { opacity: 0; transform: scale(1.25); }
+}
+
+/* Icon morph — both icons positioned, cross-faded between states */
+#action-btn .icon {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.18s var(--ease), transform 0.22s var(--ease);
+}
+
+#action-btn .icon-send { opacity: 1; transform: scale(1); }
+#action-btn .icon-stop { opacity: 0; transform: scale(0.7) rotate(-45deg); }
+
+#action-btn.is-stop .icon-send { opacity: 0; transform: scale(0.7) rotate(45deg); }
+#action-btn.is-stop .icon-stop { opacity: 1; transform: scale(1) rotate(0); }
+
+#action-btn .icon svg { width: 16px; height: 16px; }
+#action-btn .icon-send svg { width: 17px; height: 17px; stroke-width: 2.5; }
+#action-btn .icon-stop svg { width: 11px; height: 11px; }
+
+/* ── Footer info bar ── */
+#footer-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  color: var(--fg-faint);
+  max-width: 768px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 4px;
+  letter-spacing: -0.005em;
+}
+
+#footer-info .sep { opacity: 0.4; }
+
+#clear-btn {
+  background: none;
+  border: none;
+  color: var(--fg-faint);
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 3px 7px;
+  border-radius: 5px;
+  transition: color 0.15s, background 0.15s;
+}
+
+#clear-btn:hover { color: var(--error); background: var(--error-bg); }
+
+kbd {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  background: oklch(1 0 0 / 0.06);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--fg-muted);
+  font-weight: 500;
+  letter-spacing: 0;
+}

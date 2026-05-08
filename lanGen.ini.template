@@ -1,0 +1,55 @@
+[llama]
+; Path to llama-server binary
+binary = /path/to/llama.cpp/build/bin/llama-server
+; Path to model GGUF file
+model = /path/to/model.gguf
+; Path to multimodal projector (mmproj)
+mmproj = /path/to/mmproj.gguf
+; Number of layers to offload to GPU (-1 for all)
+gpu_layers = 99
+; Context size
+ctx_size = 8000
+; Number of parallel generations
+n_parallel = 1
+; Enable flash attention
+flash_attn = true
+; Key cache type (e.g., q8_0, f16)
+cache_type_k = q8_0
+; Value cache type (e.g., q8_0, f16)
+cache_type_v = q8_0
+; Sampling temperature
+temp = 0.6
+; Top-p sampling
+top_p = 0.95
+; Top-k sampling
+top_k = 20
+; Min-p sampling
+min_p = 0.0
+; Presence penalty
+presence_penalty = 1.0
+; Repeat penalty
+repeat_penalty = 1.0
+; Max reasoning budget in tokens (-1 for unlimited)
+reasoning_budget = -1
+; Max tokens for image generation responses
+image_max_tokens = 1120
+; Port for llama-server
+port = 8080
+; Build variant: cuda, rocm, metal, cpu
+build = cuda
+; Whether setup.py should manage (start/stop) llama-server
+managed = true
+
+[comfyui]
+; Path to ComfyUI installation root
+workspace = /path/to/ComfyUI
+; Port for ComfyUI web server
+port = 7860
+; Python interpreter to use
+python = python3
+; Whether setup.py should manage (start/stop) ComfyUI
+managed = true
+
+[huggingface]
+; Hugging Face token for gated model downloads (leave empty if none needed)
+token =

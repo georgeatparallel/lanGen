@@ -1,0 +1,66 @@
+name: "generate_image"
+description: |
+  Generate a new image from text using Z-Image Turbo (4 steps, Qwen 3 4B text encoder, ~8 GB VRAM).
+  Use when creating any image from scratch — illustrations, photos, concept art, product shots, diagrams.
+  Write full natural sentences (not keyword lists): lead with subject + action, then visual style,
+  lighting, composition, colour palette, and end with "sharp focus, intricate detail, high resolution".
+output_type: "image"
+output_nodes: ["60"]
+vram_hint: "8GB"
+disable_comfy_save: true
+parameters:
+  prompt:
+    node: "104:90"
+    field: "text"
+    type: "string"
+    required: true
+    description: "Detailed description of the image"
+  negative_prompt:
+    node: "9999"
+    field: "text"
+    type: "string"
+    required: false
+    default: ""
+    description: "Ignored by Z-Image Turbo — uses positive prompt for both positive and negative conditioning"
+  seed:
+    node: "104:92"
+    field: "seed"
+    type: "integer"
+    required: false
+    description: "Random if not specified"
+  steps:
+    node: "104:92"
+    field: "steps"
+    type: "integer"
+    required: false
+    default: 4
+    minimum: 1
+    maximum: 50
+  width:
+    node: "104:91"
+    field: "width"
+    type: "integer"
+    required: false
+    default: 1024
+  height:
+    node: "104:91"
+    field: "height"
+    type: "integer"
+    required: false
+    default: 1024
+downloads:
+  - hf_repo: "Comfy-Org/z_image_turbo"
+    hf_path: "split_files/diffusion_models/z_image_turbo_bf16.safetensors"
+    filename: "z_image_turbo_bf16.safetensors"
+    dest: "diffusion_models"
+    size: "13.5 GB"
+  - hf_repo: "Comfy-Org/z_image_turbo"
+    hf_path: "split_files/text_encoders/qwen_3_4b.safetensors"
+    filename: "qwen_3_4b.safetensors"
+    dest: "text_encoders"
+    size: "2.3 GB"
+  - hf_repo: "Comfy-Org/z_image_turbo"
+    hf_path: "split_files/vae/ae.safetensors"
+    filename: "ae.safetensors"
+    dest: "vae"
+    size: "0.34 GB"

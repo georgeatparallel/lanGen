@@ -1,0 +1,13 @@
+CLAUDE.md
+/certs
+/.claude
+/__pycache__
+/chats
+/static/generated
+/logs
+/models
+lanGen.ini
+.vscode
+/.venv
+/.mypy_cache
+/.ruff_cache
