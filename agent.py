@@ -393,6 +393,7 @@ def get_system_prompt(registry: dict) -> str:
     CONTEXT BUDGET:
     Each fetch_page result is capped at ~6000 characters. You can fetch up to ~20 pages
     before your context fills up. Prioritise quality over quantity.
+    Results may be excerpts rather than full pages. Do not assume missing details are absent from the source.
     If a page returns an error or irrelevant content, discard it and move on.
 
     WHEN NOT TO USE DEEP RESEARCH:
